@@ -1,7 +1,5 @@
 # Stock Management REST API
 
-## Short Description
-
 This is a robust RESTful API for managing stock, built with the MEN (MongoDB, Express.js, Node.js) stack. It provides endpoints for authentication, managing products, categories, stock movements, and generating reports. The API is designed to be scalable and easy to integrate with various frontend applications.
 
 ## Features
