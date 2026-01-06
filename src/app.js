@@ -1,10 +1,13 @@
 const express = require('express');
 
+const connectDatabase = require('./config/database'); 
 const healthRoutes = require('./routes/health.routes');
+
 const app = express();
 
-app.use(express.json());
+connectDatabase();
 
+app.use(express.json());
 app.use('/api', healthRoutes);
 
 module.exports = app;
