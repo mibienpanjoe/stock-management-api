@@ -3,6 +3,7 @@ const express = require('express');
 const connectDatabase = require('./config/database'); 
 const healthRoutes = require('./routes/health.routes');
 const categoryRoutes = require('./routes/category.routes');
+const productRoutes = require('./routes/product.routes');
 
 const app = express();
 
@@ -11,6 +12,6 @@ connectDatabase();
 app.use(express.json());
 app.use('/api', healthRoutes);
 app.use('/api/categories', categoryRoutes);
-
+app.use('/api/products', productRoutes);
 
 module.exports = app;
