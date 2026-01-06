@@ -7,7 +7,7 @@ const productRoutes = require('./routes/product.routes');
 const stockMovementRoutes = require('./routes/stockMovement.routes');
 const authRoutes = require('./routes/auth.routes');
 const reportRoutes = require('./routes/report.routes');
-
+const { swaggerUi, specs } = require('./config/swagger');
 
 const app = express();
 
@@ -20,6 +20,6 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/stock-movements', stockMovementRoutes);
 app.use('/api/reports', reportRoutes);
-
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 module.exports = app;
