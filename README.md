@@ -4,23 +4,24 @@ This is a robust RESTful API for managing stock, built with the MEN (MongoDB, Ex
 
 ## Features
 
--   **User Authentication & Authorization:** Secure user registration, login, and protected routes using JWT.
--   **Product Management:** Create, read, update, and delete products.
--   **Category Management:** Organize products into categories.
--   **Stock Movement Tracking:** Record and manage incoming and outgoing stock (e.g., purchases, sales, transfers).
--   **Reporting:** Generate reports on stock levels and movements.
--   **Health Check:** Endpoint to monitor API status.
--   **API Documentation:** Integrated Swagger UI for interactive API exploration.
+- **User Authentication & Authorization:** Secure user registration and login using Email/Password or **Google Social Auth**. Protected routes using JWT.
+- **Product Management:** Create, read, update, and delete products.
+- **Category Management:** Organize products into categories.
+- **Stock Movement Tracking:** Record and manage incoming and outgoing stock (e.g., purchases, sales, transfers).
+- **Reporting:** Generate reports on stock levels and movements.
+- **Health Check:** Endpoint to monitor API status.
+- **API Documentation:** Integrated Swagger UI for interactive API exploration.
 
 ## Tech Stack
 
--   **Node.js:** JavaScript runtime environment.
--   **Express.js:** Web application framework for Node.js.
--   **MongoDB:** NoSQL database for flexible data storage.
--   **Mongoose:** ODM (Object Data Modeling) library for MongoDB and Node.js.
--   **JWT (JSON Web Tokens):** For secure authentication and authorization.
--   **Bcrypt.js:** For hashing passwords.
--   **Swagger UI & JSDoc:** For automatic API documentation.
+- **Node.js:** JavaScript runtime environment.
+- **Express.js:** Web application framework for Node.js.
+- **MongoDB:** NoSQL database for flexible data storage.
+- **Mongoose:** ODM (Object Data Modeling) library for MongoDB and Node.js.
+- **JWT (JSON Web Tokens):** For secure authentication and authorization.
+- **Bcrypt.js:** For hashing passwords.
+- **Google Auth Library:** For verifying Google ID tokens.
+- **Swagger UI & JSDoc:** For automatic API documentation.
 
 ## Project Structure
 
@@ -32,6 +33,7 @@ Dockerfile                   # Dockerfile for building the application image
 index.js                     # Main application entry point
 package.json                 # Project dependencies and scripts
 README.md                    # Project README file
+GOOGLE_SETUP_GUIDE.md        # Guide for setting up Google Console credentials
 src/
 ├── app.js                   # Express application setup and middleware
 ├── config/
@@ -62,10 +64,10 @@ Follow these steps to get the Stock Management REST API up and running on your l
 
 ### Prerequisites
 
--   Node.js (LTS version recommended)
--   npm (comes with Node.js)
--   MongoDB installed and running, or access to a MongoDB Atlas instance.
--   Docker and Docker Compose (optional, for containerized deployment)
+- Node.js (LTS version recommended)
+- npm (comes with Node.js)
+- MongoDB installed and running, or access to a MongoDB Atlas instance.
+- Docker and Docker Compose (optional, for containerized deployment)
 
 ### Installation
 
@@ -96,7 +98,11 @@ Follow these steps to get the Stock Management REST API up and running on your l
     PORT=3000
     MONGODB_URI=mongodb://localhost:27017/stock_management_db  # Your MongoDB connection string
     JWT_SECRET=your_super_secret_jwt_key                       # A strong, unique secret key for JWT
+    GOOGLE_CLIENT_ID=your_google_client_id                      # From Google Cloud Console
     ```
+
+    > [!TIP]
+    > See [GOOGLE_SETUP_GUIDE.md](file:///home/mj/projects/stock-management-api/GOOGLE_SETUP_GUIDE.md) for detailed instructions on getting your Google Client ID.
 
 ### Running the Application
 

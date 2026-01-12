@@ -1,23 +1,25 @@
 services:
   mongo:
-    image: mongo:6 
-    container_name: mongo-stock 
-    restart: unless-stopped 
+    image: mongo:6
+    container_name: mongo-stock
+    restart: unless-stopped
     ports:
       - "27018:27017"
     volumes:
       - mongo-data:/data/db
   api:
     build: .
-    container_name: stock-api 
+    container_name: stock-api
     ports:
       - "3000:3000"
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/stockdb 
+      - MONGODB_URI=mongodb://mongo:27017/stockdb
+      - JWT_SECRET=${JWT_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
     depends_on:
       - mongo
-  
-volumes: 
+
+volumes:
   mongo-data:
 
 networks:
