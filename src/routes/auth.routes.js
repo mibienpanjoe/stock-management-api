@@ -22,12 +22,17 @@ const authController = require('../controllers/auth.controller');
  *           schema:
  *             type: object
  *             required:
- *               - username
+ *               - fullname
+ *               - email
  *               - password
  *             properties:
- *               username:
+ *               fullname:
  *                 type: string
- *                 example: "johndoe"
+ *                 example: "John Doe"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "john.doe@example.com"
  *               password:
  *                 type: string
  *                 format: password
@@ -56,7 +61,7 @@ const authController = require('../controllers/auth.controller');
  *                   properties:
  *                     _id:
  *                       type: string
- *                     username:
+ *                     email:
  *                       type: string
  *                     role:
  *                       type: string
@@ -78,12 +83,13 @@ router.post('/register', authController.register);
  *           schema:
  *             type: object
  *             required:
- *               - username
+ *               - email
  *               - password
  *             properties:
- *               username:
+ *               email:
  *                 type: string
- *                 example: "johndoe"
+ *                 format: email
+ *                 example: "john.doe@example.com"
  *               password:
  *                 type: string
  *                 format: password
@@ -107,7 +113,7 @@ router.post('/register', authController.register);
  *                   properties:
  *                     _id:
  *                       type: string
- *                     username:
+ *                     email:
  *                       type: string
  *                     role:
  *                       type: string
