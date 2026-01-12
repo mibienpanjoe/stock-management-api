@@ -1,4 +1,6 @@
 const User = require('../models/user.model'); const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const JWT_SECRET = `${process.env.JWT_SECRET}` ; 
 
 // Register user
@@ -26,5 +28,46 @@ try {
     res.status(200).json({ token });
 } catch (error) {
     res.status(500).json({ error: error.message });
+} };
+
+// Google Auth (Register/Login)
+exports.googleAuth = async (req, res) => {
+try {
+    const { idToken } = req.body;
+    const ticket = await client.verifyIdToken({
+        idToken,
+        audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const { email, name, sub: googleId } = ticket.getPayload();
+
+    let user = await User.findOne({ $or: [{ googleId }, { email }] });
+
+    if (!user) {
+        // Create new user if not exists
+        user = new User({
+            fullname: name,
+            email,
+            googleId,
+            role: 'staff' // Default role
+        });
+        await user.save();
+    } else if (!user.googleId) {
+        // Link googleId to existing email-only user
+        user.googleId = googleId;
+        await user.save();
+    }
+
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+    res.status(200).json({ 
+        token, 
+        user: { 
+            id: user._id, 
+            fullname: user.fullname, 
+            email: user.email, 
+            role: user.role 
+        } 
+    });
+} catch (error) {
+    res.status(400).json({ error: 'Google authentication failed: ' + error.message });
 } };
 
