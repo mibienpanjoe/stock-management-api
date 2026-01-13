@@ -14,15 +14,12 @@ const app = express();
 
 connectDatabase();
 
-app.use(cors({
-  origin: ['http://localhost:8080', 'http://127.0.0.1:8080'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
+// Simple CORS - allow all origins in development
+app.use(cors());
 
 app.use(express.json());
+
+// Routes
 app.use('/api', healthRoutes);
 app.use('/api/auth', authRoutes); 
 app.use('/api/categories', categoryRoutes);
