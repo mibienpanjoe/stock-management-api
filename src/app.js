@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const connectDatabase = require('./config/database'); 
 const healthRoutes = require('./routes/health.routes');
@@ -12,6 +13,14 @@ const { swaggerUi, specs } = require('./config/swagger');
 const app = express();
 
 connectDatabase();
+
+app.use(cors({
+  origin: ['http://localhost:8080', 'http://127.0.0.1:8080'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 
 app.use(express.json());
 app.use('/api', healthRoutes);
