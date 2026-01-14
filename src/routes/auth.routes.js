@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth.controller');
+const { protect } = require('../middlewares/auth.middleware');
 
 /**
  * @swagger
@@ -61,6 +62,8 @@ const authController = require('../controllers/auth.controller');
  *                   properties:
  *                     _id:
  *                       type: string
+ *                     fullname:
+ *                       type: string
  *                     email:
  *                       type: string
  *                     role:
@@ -113,6 +116,8 @@ router.post('/register', authController.register);
  *                   properties:
  *                     _id:
  *                       type: string
+ *                     fullname:
+ *                       type: string
  *                     email:
  *                       type: string
  *                     role:
@@ -158,5 +163,36 @@ router.post('/login', authController.login);
  *         description: Authentication failed
  */
 router.post('/google', authController.googleAuth);
+
+/**
+ * @swagger
+ * /api/auth/me:
+ *   get:
+ *     summary: Get current user profile
+ *     tags: [Authentication]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 fullname:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 role:
+ *                   type: string
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
+router.get('/me', protect, authController.getProfile);
 
 module.exports = router;

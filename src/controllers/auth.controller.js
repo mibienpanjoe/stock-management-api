@@ -25,7 +25,15 @@ try {
     if (!isMatch) return res.status(400).json({ error: 'Invalid password' });
 
     const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ token });
+    res.status(200).json({ 
+        token,
+        user: {
+            id: user._id,
+            fullname: user.fullname,
+            email: user.email,
+            role: user.role
+        }
+    });
 } catch (error) {
     res.status(500).json({ error: error.message });
 } };
@@ -69,5 +77,15 @@ try {
     });
 } catch (error) {
     res.status(400).json({ error: 'Google authentication failed: ' + error.message });
+} };
+
+// Get user profile
+exports.getProfile = async (req, res) => {
+try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.status(200).json(user);
+} catch (error) {
+    res.status(500).json({ error: error.message });
 } };
 

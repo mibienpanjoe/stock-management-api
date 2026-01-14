@@ -10,6 +10,11 @@ const mongoose = require('mongoose');
         required: true,
         min: 0
     },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
+        },
     stockQuantity: {
         type: Number,
         default: 0,

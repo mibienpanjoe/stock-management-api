@@ -52,7 +52,7 @@ const { protect, authorize } = require('../middlewares/auth.middleware');
  *       403:
  *         description: Forbidden - Admin or Manager role required
  */
-router.post('/', protect, authorize('admin', 'manager'), productController.createProduct);
+router.post('/', protect, productController.createProduct);
 
 /**
  * @swagger
@@ -87,7 +87,7 @@ router.post('/', protect, authorize('admin', 'manager'), productController.creat
  *       403:
  *         description: Forbidden - Admin or Staff role required
  */
-router.get('/', protect, authorize('admin', 'staff'), productController.getAllProducts);
+router.get('/', protect, productController.getAllProducts);
 
 /**
  * @swagger
