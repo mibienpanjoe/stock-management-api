@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-    const productSchema = new mongoose.Schema({ name: {
+const productSchema = new mongoose.Schema({
+    name: {
         type: String,
         required: true,
         trim : true,
@@ -19,7 +20,13 @@ const mongoose = require('mongoose');
         type: Number,
         default: 0,
         min: 0
-}
+    },
+    profileImage: {
+        type: String
+    },
+    image: {
+        type: String
+    }
 }, 
 {
     timestamps: true

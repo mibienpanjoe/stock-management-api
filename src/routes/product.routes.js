@@ -52,7 +52,13 @@ const { protect, authorize } = require('../middlewares/auth.middleware');
  *       403:
  *         description: Forbidden - Admin or Manager role required
  */
-router.post('/', protect, productController.createProduct);
+const upload = require('../middlewares/upload.middleware');
+
+router.post('/', protect, upload.single('image'), productController.createProduct);
+
+// ... (get routes unchanged)
+
+router.put('/:id', protect, upload.single('image'), productController.updateProduct);
 
 /**
  * @swagger

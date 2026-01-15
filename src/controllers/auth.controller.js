@@ -8,7 +8,8 @@ const JWT_SECRET = `${process.env.JWT_SECRET}` ;
 exports.register = async (req, res) => {
 try {
     const { fullname, email, password, role } = req.body;
-    const user = new User({ fullname, email, password, role });
+    const profileImage = req.file ? req.file.path : undefined;
+    const user = new User({ fullname, email, password, role, profileImage });
     await user.save();
     res.status(201).json({ message: 'User registered successfully', user: { id: user._id, fullname: user.fullname, email: user.email, role: user.role } }); 
 } catch (error) {
@@ -88,4 +89,27 @@ try {
 } catch (error) {
     res.status(500).json({ error: error.message });
 } };
+
+// Update user profile
+exports.updateProfile = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { fullname } = req.body;
+        const updates = {};
+        
+        if (fullname) updates.fullname = fullname;
+        if (req.file) updates.profileImage = req.file.path;
+
+        const user = await User.findByIdAndUpdate(userId, updates, { new: true }).select('-password');
+        
+        if (!user) return res.status(404).json({ error: 'User not found' });
+        
+        res.status(200).json({ 
+            message: 'Profile updated successfully', 
+            user 
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 

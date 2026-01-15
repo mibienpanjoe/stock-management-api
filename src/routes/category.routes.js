@@ -41,7 +41,13 @@ const { protect, authorize } = require('../middlewares/auth.middleware');
  *       401:
  *         description: Unauthorized
  */
-router.post('/', protect, categoryController.createCategory);
+const upload = require('../middlewares/upload.middleware');
+
+router.post('/', protect, upload.single('image'), categoryController.createCategory);
+
+// ... (get routes)
+
+router.put('/:id', protect, upload.single('image'), categoryController.updateCategory);
 
 /**
  * @swagger

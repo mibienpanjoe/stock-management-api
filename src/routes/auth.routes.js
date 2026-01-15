@@ -71,7 +71,9 @@ const { protect } = require('../middlewares/auth.middleware');
  *       400:
  *         description: Validation error or user already exists
  */
-router.post('/register', authController.register);
+const upload = require('../middlewares/upload.middleware');
+
+router.post('/register', upload.single('profileImage'), authController.register);
 
 /**
  * @swagger
@@ -194,5 +196,30 @@ router.post('/google', authController.googleAuth);
  *         description: User not found
  */
 router.get('/me', protect, authController.getProfile);
+
+/**
+ * @swagger
+ * /api/auth/me:
+ *   put:
+ *     summary: Update current user profile
+ *     tags: [Authentication]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fullname:
+ *                 type: string
+ *               profileImage:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Profile updated successfully
+ */
+router.put('/me', protect, upload.single('profileImage'), authController.updateProfile);
 
 module.exports = router;
